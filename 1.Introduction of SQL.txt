@@ -1,0 +1,89 @@
+# Data Vs Information :
+- Data is the detail about any object, Say you got a details like
+
+Suraj, 36,1989.
+
+You don't have any detail about these values.
+What is Suraj? Name or Surname,
+What is 36? Is it his age or Waist Size,
+What is 1989? Is it his year of Birth or Year of Joining
+
+
+- Information is another piece of detail that adds meaning to the data.
+
+- Meta Data:
+ Any extra details about the data are called as Meta.
+ Eg: Name should be String; it can be of max size=50
+
+- Database:
+It is a collection of Tables. Each table is the collection of Rows and columns, just like the excel sheet.
+
+# Building Block Of Database
+
+* Row or Tuple:
+1. It represents all data required for a particular Instance in an Entity
+2. Each row can be identified by declaring one column as Primary Key
+3. The order of the rows is not significant, while retrieving the data
+
+* Column or Attribute:
+1. Represents one kind of data in a table vertically collected.
+2. The column order is not significant while retrieving the data.
+
+* Field
+1. It can be found at an intersection of rows and columns
+2. A field can have only one value, or may not have value at all
+3. The absence of value is represented as NULL
+
+* Connecting 2 tables:
+1. Each table should contain data that describes exactly only one entity
+2. Data about different entities is stored in different tables.
+	All Customer data should be stored in customer table
+	All Sales data should be sorted in Sales table.
+3. We use foreign key to relate data across two tables.
+4. A Foreign key is a column or a set of columns that refer to a primary key in the same table or another
+table.
+
+# Types of SQL Queries
+
+1. DDL Data Definition Language)
+
+i.  Create
+ii. Alter
+iii.Drop
+iv. Truncate
+v.  Rename
+
+2. DML (Data Manipulation Language)
+i.   Insert
+ii.  Update
+iii. Delete
+iv.  Merge
+
+3. DRL/DOL (Data Retrival/Query Language)
+i. Select
+
+4. TCL (Transactional Control Language)
+i.  Commit
+ii. Rollback
+lil.Savepoint
+
+5. DCL(Data Control Language)
+i. Grant
+ii.Revoke
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

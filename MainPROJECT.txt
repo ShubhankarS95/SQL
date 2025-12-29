@@ -1,0 +1,228 @@
+CREATE TABLE users (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ name VARCHAR(255) NOT NULL,
+ first_name VARCHAR(255),
+ last_name VARCHAR(255),
+ email VARCHAR(255),
+ phone VARCHAR(10),
+ gender VARCHAR(255),
+ aadhar_number VARCHAR(191)
+);
+ 
+ 
+CREATE TABLE languages (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ name VARCHAR(191) NOT NULL,
+ image VARCHAR(191) NOT NULL
+);
+
+CREATE TABLE categories (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ language_id INT NOT NULL,
+ name VARCHAR(255) NOT NULL,
+ category_image VARCHAR(255) NOT NULL,
+ FOREIGN KEY (language_id) REFERENCES languages(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE topics (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ category_id INT NOT NULL,
+ name VARCHAR(255) NOT NULL,
+ price VARCHAR(255) NOT NULL,
+ image VARCHAR(255),
+ priority VARCHAR(255),
+ FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+
+CREATE TABLE lectures (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ topic_id INT NOT NULL,
+ name VARCHAR(255) NOT NULL,
+ priority DOUBLE,
+ duration VARCHAR(255) NOT NULL,
+ video_id VARCHAR(255),
+ video_link VARCHAR(255),
+ FOREIGN KEY (topic_id) REFERENCES topics(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE courses (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ name VARCHAR(255) NOT NULL,
+ image VARCHAR(255) NOT NULL,
+ language_id INT NOT NULL,
+ isPrivate ENUM('1', '0') NOT NULL DEFAULT '1',
+ upload_syllabus VARCHAR(255) NOT NULL,
+ instructor_id TEXT NOT NULL,
+ topic_list TEXT NOT NULL,
+ access_duration VARCHAR(255) NOT NULL,
+ total_price VARCHAR(255) NOT NULL,
+ installment_list TEXT,
+ breaks_allowed INT DEFAULT 0,
+ is_Aadhar_required ENUM('1', '0'),
+ whatsapp_group_link VARCHAR(100),
+ FOREIGN KEY (language_id) REFERENCES languages(id) ON DELETE CASCADE ON UPDATE CASCADE
+)
+
+
+CREATE TABLE user_courses (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ completed_topic TEXT,
+ user_id INT NOT NULL,
+ course_id INT ,
+ price VARCHAR(255) NOT NULL,
+ access_duration VARCHAR(255) NOT NULL COMMENT 'Total Course Access Durations',
+ break_info TEXT,
+ topic_list TEXT,
+ FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+ FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE video_trackings (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ user_id INT,
+ video_id INT,
+ time INT,
+ completed ENUM('0', '1') DEFAULT '0',
+ FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+ FOREIGN KEY (video_id) REFERENCES lectures(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+Assignment:
+1.Populate some data into these tables. Atleast 2-3 in each category. Use ChatGPT 
+2. Given a User, List all the course he has taken.
+3. Given a User and the course, List total hours he has watched the video and Percentage completion./(Tricky)
+4. Given a Course Id, List all the people who have taken the course along with their course completion percentage.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  first_name VARCHAR(255),
+  last_name VARCHAR(255),
+  email VARCHAR(255),
+  phone VARCHAR(10),
+  gender VARCHAR(255),
+  aadhar_number VARCHAR(191)
+);
+
+
+CREATE TABLE languages (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(191) NOT NULL,
+  image VARCHAR(191) NOT NULL
+);
+ -- Database-> MySQL,Oracle
+ -- Programming -> Java,Scala,Python
+
+CREATE TABLE categories (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  language_id INT NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  category_image VARCHAR(255) NOT NULL,
+  FOREIGN KEY (language_id) REFERENCES languages(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+CREATE TABLE topics (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  category_id INT NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  price VARCHAR(255) NOT NULL,
+  image VARCHAR(255),
+  priority VARCHAR(255),
+  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+CREATE TABLE lectures (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  topic_id INT NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  priority DOUBLE,
+  duration VARCHAR(255) NOT NULL,
+  video_id VARCHAR(255),
+  video_link VARCHAR(255),
+  FOREIGN KEY (topic_id) REFERENCES topics(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+
+CREATE TABLE courses (
+  id INT  AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  image VARCHAR(255) NOT NULL,
+  language_id INT  NOT NULL,
+  isPrivate ENUM('1', '0') NOT NULL DEFAULT '1',
+  upload_syllabus VARCHAR(255) NOT NULL,
+  instructor_id TEXT NOT NULL,
+  topic_list TEXT NOT NULL,
+  access_duration VARCHAR(255) NOT NULL,
+  total_price VARCHAR(255) NOT NULL,
+  installment_list TEXT,
+  breaks_allowed INT DEFAULT 0,
+  is_Aadhar_required ENUM('1', '0'),
+  whatsapp_group_link VARCHAR(100),
+  FOREIGN KEY (language_id) REFERENCES languages(id) ON DELETE CASCADE ON UPDATE CASCADE
+) 
+
+
+
+CREATE TABLE user_courses (
+  id INT  AUTO_INCREMENT PRIMARY KEY,
+  completed_topic TEXT,
+  user_id INT  NOT NULL,
+  course_id INT ,
+  price VARCHAR(255) NOT NULL,
+  access_duration VARCHAR(255) NOT NULL COMMENT 'Total Course Access Durations',
+  break_info TEXT,
+  topic_list TEXT,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE video_trackings (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  video_id INT,
+  time INT,
+  completed ENUM('0', '1') DEFAULT '0',
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (video_id) REFERENCES lectures(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+Assignment:
+1. Populate some data into these tables. Atleast 2-3 in each category. Use ChatGPT 
+2. Given a User, List all the course he has taken.
+3. Given a User and the course, List total hours he has watched the video and Percentage completion.(Tricky)
+4. Given a Course Id, List all the people who have taken the course along with their course completion percentage
+
+
+

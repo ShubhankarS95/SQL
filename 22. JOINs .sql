@@ -512,22 +512,206 @@ FROM DEPT d
 WHERE e.DEPT_ID = d.DEPT_ID
 );
 
+-- IN:
+
+SELECT e.*
+FROM EMP e
+WHERE e.DEPT_ID IN (
+SELECT d.DEPT_ID
+FROM DEPT d where d.dept_id=e.dept_id
+);
+
+-- ANTI JOIN:
+-- An anti-join is the opposite of a semi-join:
+-- it returns rows from one table that do not have a matching row in another table.
+-- MySQL doesnot support ANTIJOIN directly, but we can simulate that using NOT EXISTS and NOTIN
+-- Using NOT EXISTS
+
+SELECT e.*
+FROM EMP e
+WHERE NOT EXISTS (
+SELECT 1
+FROM DEPT d
+WHERE e.DEPT_ID = d.DEPT_ID
+);
 
 
 
+-- Using NOT IN:
+
+SELECT e.*
+FROM EMP e
+WHERE e.DEPT ID NOT IN (
+SELECT d.DEPT_ID
+FROM DEPT d where d.dept id=e.dept_id
+);
 
 
+-- Joins with NULL
+
+drop table emp:
+drop table dept;
+
+CREATE TABLE DEPT (
+dept_ id INT,
+name VARCHAR (50),
+loc VARCHAR(50)
+);
+
+CREATE TABLE EMP (
+id INT,
+name VARCHAR (50),
+dept_ id INT
+);
+
+INSERT INTO DEPT (dept id, name, loc) VALUES
+(10, 'ACCOUNTING', 'NEW YORK'),
+(20, 'RESEARCH', 'DALLAS'),
+(30, 'SALES', 'CHICAGO'),
+(40, 'OPERATIONS', 'BOSTON',
+(NULL, NULL, NULL);
+
+-- Insert data into EMP table
+
+INSERT INTO EMP (id, name, dept_id) VALUES
+(101, 'SMITH', 10),
+(102, 'ALLEN',*, 20),
+(103, 'WARD',*, 30),
+(104, 'JONES', 50),
+(NULL, NULL, NULL):
 
 
+-- Inner Join:
+
+-- Table A Table B
 
 
+-- NULL would not be the part of the Result
+
+select * from emp e
+INNER JOIN dept d
+on e.dept_id =d.dept_id ;
 
 
+-- Left Join:
+-- All Non-Matching records from the Left side would be the part of the Join, hence the entire NULL record
+-- will also be a part of it.
+-- Table A Table B
+
+select * from emp e
+LEFT JOIN dept d
+on e.dept id =d.id ;
+
+-- Left Join with Right table key null
+
+select * from emp e
+left join dept d
+on e.dept id =d.dept id
+where d.dept id is null;
+
+-- Right Join:
+-- All Non-Matching records from Right side will also be part of the result including all NULL records.
+
+select * from emp e
+RIGHT JOIN dept d
+on e.dept id =d.dept id ;
 
 
+-- Right Join with Left Table key null
+select * from emp e
+right join dept d
+on e.dept_id =d.dept_id
+where e.dept id is null;
 
 
+-- Full Outer Join
 
+SELECT e.*,d.*
+FROM emp e LEFT JOIN dept d
+ON e.dept_id = d.dept_ id
+UNION
+SELECT e.*,d.*
+FROM emp e RIGHT JOIN dept d
+ON e.dept id = d.dept id
+
+-- FULL outer join excluding the intersection
+
+SELECT e.*,d.*
+FROM emp e LEFT JOIN dept d
+ON e.dept id = d.dept id where d.dept id is null
+UNION
+SELECT e.*,d.*
+FROM emp e RIGHT JOIN dept d
+ON e dept id = d.dept id where e dept id is null
+
+
+-- CROSS JOIN:
+-- Since it is cross join,
+-- You will see always see M*N no matter if you have NULL in your entire records.
+-- We will have 25 records.
+
+select * from emp e,dept d;
+
+
+-- Where Condition on Join?
+-- You can either Filter your data before the join happens or After the join.
+
+
+-- This will definitely produce different output.
+-- Let's see that together.
+
+drop table Employees,
+drop table Departments;
+
+CREATE TABLE Employees (
+EmployeeID INT PRIMARY KEY,
+Name VARCHAR(50),
+DepartmentID INT
+);
+
+CREATE TABLE Departments (
+DepartmentID INT.
+DepartmentName VARCHAR(50)
+);
+
+INSERT INTO Employees (EmployeeID, Name, DepartmentID) VALUES
+(1, 'Alice', 101),
+(2, 'Bob', 102),
+(3, 'DEV', 104),
+(4, 'Charlie', NULL),
+(5, 'David', 105);
+
+INSERT INTO Departments (DepartmentID, DepartmentName) VALUES
+(101, HR'),
+(102,'IT'),
+(103, 'Finance),
+(104, NULL),
+(NULL, 'Transport');
+
+
+select * from employees;
+select * from departments;
+
+select * from employees e where e. departmentID is not NULL
+select * from departments d where d.departmentID is not null
+
+
+-- Filter the dat a before the join happens.
+select * from 
+(select * from employees e where e.de partmentD is not NULL) e
+join 
+( select * from departments d where d.de partmentiD is not null) d
+on e.deparimentid=d. e.department_id ID;
+
+
+-- Or Filter the data after the join.
+
+select * from 
+(select * from employees e where e.departmentD is not NULL) e
+join 
+(select * from departments d where d.departmentiD is not null) d
+on .departmentId=d.departmendID
+where d. departmentame is not null;
 
 
 

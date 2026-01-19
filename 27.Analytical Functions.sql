@@ -602,5 +602,77 @@ from sales;
 -- Considers all rows from the start of the partition up to the current row, but its output is based
 -- on the "last row" within this frame (i.e., the current row).
 
+-- How to Fix this Issue with LAST_VALUE?
+select sale_date,product_name,total_amount,
+FIRST_VALUE(total_amount) OVER(order by sale_date) as first_val,
+LAST_VALUE(total_amount) OVER(order by sale_date ROWS BETWEEN unbounded PRECEDING AND UNBOUNDED FOLLOWING) as last_val
+from sales;
 
 
+-- Can I get similar behaviour for First_VALUE as well? ***
+-- Yes.
+
+
+select sale_date,product_name,total_amount,
+FIRST_VALUE(total_amount) OVER(order by sale_date ROWS BETWEEN CURRENT ROW and UNBOUNDED FOLLOWING) as first_val,
+LAST_VALUE(total_amount) OVER(order by sale_date) as last_val
+from sales;
+
+select sale_date,product_name,total_amount,
+LAST_VALUE(total_amount) OVER(partition by product_name order by sale_date ROWS between UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as last_val 
+from sales;
+
+-- CUME_DIST()
+-- Calculates the cumulative distribution of a value in an ordered set of rows. 
+-- It returns a value between O and 1, indicating the proportion of rows with a value less than or equal to the current row's value.
+-- The cumulative distribution is calculated as:
+-- 
+--  			 (Number of rows with value <= current row's value)
+-- CUME_DIST =	----------------------------------------------------
+--  				(Total number of rows in the partition)
+
+select product_name,total_amount,
+CUME_DIST() OVER () AS cumulative_distribution from sales;
+
+
+select product_name,total_amount,
+CUME_DIST() OVER (ORDER BY total_amount) AS cumulative_distribution
+from sales;
+
+-- 1/15, 2/15,3/15 , 5/15,....
+
+
+select *,CUME_DIST() OVER (ORDER BY total_sales) as cumulative_dist from (
+select product_name,sum(total_amount) as total_sales
+from sales group by product_name) e
+
+-- 1/3, 2/3, 3/3
+
+
+-- With Partition
+select sale_date,product_name,total_amount,
+CUME_DIST() OVER(partition by product_name order by sale_date) as cumulative_dist from sales
+
+-- PERCENT_RANK():
+-- It is a window function in SQL that calculates the relative rank of a value within a partition of a result set.
+-- It assigns a value between 0 and 1, inclusive, representing the percentage of rows with values less than or equal to the current row's value.
+
+select product_name,total_amount,
+PERCENT_RANK() OVER(ORDER BY total_amount) AS percentage_rank from sales;
+ 
+-- 				       (Rank of the current row) - 1
+-- PERCENT_RANK = -----------------------------------------
+-- 			    	(Number of rows in the partition) - 1
+
+-- (1-1)/(15-1) = 0
+-- (2-1)/(15-1)=0.0714
+
+
+select *, PERCENT_RANK() OVER (ORDER BY total_sales) as percentage_rank from (
+select product_name,sum(total_amount) as total_sales
+from sales group by product_name) e
+
+
+select sale_date, product_name,total_amount,
+PERCENT_RANK() OVER(partition by product_name order by sale_date) as percentage_rank
+from sales;
